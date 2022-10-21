@@ -159,7 +159,6 @@ body {
 	border: 3px solid rgba(255,255,255,0.75);
   width: 100%;
   opacity: 0.2;
-  height: 0px;
   transition: all 0.5s 0.8s;
   display: flex;
   align-items: center;
@@ -171,7 +170,7 @@ body {
 .lucky-draw-users-start {
   background-image:url(../image/BG-Banner.png);
   opacity: 1.0;
-  height: 280px;
+  display: flex;
 }
 
 .lucky-draw-user {

@@ -25,8 +25,9 @@ new Vue({
   									{{ item.department }}
   								</div>-->
   							</div>
-  			        <div v-if="!users.length && !surplusUsers.length" class="lucky-draw-empty">
-  								抽签完毕，已经全部抽中！
+  			        <!--<div v-for="item in totalPrice" :key="index" v-if="!users.length && !surplusUsers.length" class="lucky-draw-empty">-->
+                <div v-if="isEnd" class="lucky-draw-empty">
+  								恭喜你！所有寿司总价值：{{totalPrice}}元
   							</div>
   						</div>
   					</div>
@@ -88,7 +89,8 @@ new Vue({
   							<td colspan="2">
   								<!-- 抽签按钮 -->
   								<a-button @click="luckyDraw">
-  									{{ isLuckyDraw ? luckyDrawTime ? '停止抽奖' : '结束本轮' : '开始抽奖' }}
+  								<!--	{{ isLuckyDraw ? luckyDrawTime ? '停止抽奖' : '结束本轮' : '开始抽奖' }}-->
+                    {{ isLuckyDraw ?  '停止抽奖' : '开始抽奖' }}
   								</a-button>
                 </td>
               </tr>
@@ -141,6 +143,10 @@ new Vue({
       numberPeople: 8,
       // 抽签状态
       isLuckyDraw: false,
+      // 是否结束
+      isEnd: false,
+      // 总价格
+      totalPrice: 0,
       // 滚动名单
       users: [],
       lastUsers: [],
@@ -384,7 +390,8 @@ new Vue({
       if (this.tempNumber === this.number) {
         if (this.luckyDrawTime) {
           clearInterval(this.luckyDrawTime)
-          this.luckyDrawTime = undefined
+          //this.luckyDrawTime = undefined
+          this.isEnd = true
           this.users = this.lastUsers
           this.saveWinningUsers()
         } else {
@@ -457,10 +464,12 @@ new Vue({
           const index = this.surplusUsers.indexOf(user)
           if (index !== -1) {
             lastUsers.push(user)
+            this.totalPrice += user.number
             //this.surplusUsers.splice(index, 1)
           }
         }
       }
+
       // 打乱顺序
       var length = lastUsers.length
       if (length > 1) {
